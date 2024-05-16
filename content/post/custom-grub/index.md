@@ -1,6 +1,6 @@
 ---
 title: Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB
-description: Menampilkan entri dari custom.cfg sebelum entri menu GRUB
+description: Panduan ini menjelaskan cara membuat konfigurasi khusus muncul sebelum entri utama di menu GRUB. Anda dapat mengatur file konfigurasi custom.cfg agar ditampilkan sebelum menu GRUB utama saat booting.
 image: cover.jpg
 date: 2024-05-16 00:00:00+0000
 categories:

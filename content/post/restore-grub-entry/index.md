@@ -1,6 +1,6 @@
 ---
 title: Mengembalikan Entri Menu Windows Yang Hilang di GRUB
-description: Mengembalikan Entri Menu Windows Yang Hilang di GRUB
+description: Panduan mudah untuk mengembalikan entri Windows yang hilang di menu GRUB dengan membuat file custom.cfg atau menggunakan tool boot-repair di Ubuntu.
 image: cover.jpg
 date: 2024-05-16 00:00:00+0000
 categories:
