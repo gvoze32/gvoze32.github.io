@@ -2,7 +2,7 @@
 title: Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB
 description: Menampilkan entri dari custom.cfg sebelum entri menu GRUB
 image: cover.jpg
-date: 2024-05-17 00:00:00+0000
+date: 2024-05-16 00:00:00+0000
 categories:
     - Linux
 tags:
