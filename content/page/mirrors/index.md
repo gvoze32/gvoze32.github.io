@@ -1,10 +1,18 @@
 ---
 title: Mirrors
 links:
-  - title: Cloudflare Workers Mirror
-    description: Mirror dari situs utama yang disediakan melalui Cloudflare Workers.
+  - title: GitHub Pages
+    description: Versi utama situs yang disediakan melalui GitHub Pages.
+    website: https://syafa.tech
+    image: https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg
+  - title: Cloudflare Pages
+    description: Salinan dari situs utama yang disediakan melalui Cloudflare Pages.
     website: https://mirror.syafa.tech
-    image: https://workers.cloudflare.com/resources/logo/logo.svg
+    image: https://pages.cloudflare.com/resources/logo/logo.svg
+  - title: Vercel
+    description: Salinan dari situs utama yang disediakan melalui Vercel.
+    website: https://mirror2.syafa.tech
+    image: https://avatars.githubusercontent.com/u/88905828?s=200&v=4
 menu:
     main: 
         weight: 4
