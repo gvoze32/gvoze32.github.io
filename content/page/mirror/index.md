@@ -13,5 +13,3 @@ menu:
 
 comments: false
 ---
-
-# Mirrors
