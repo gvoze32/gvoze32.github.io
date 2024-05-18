@@ -120,7 +120,7 @@ admin = "Admin"
 envId = "https://twikooadenatech-syafa-adenas-projects.vercel.app"
 region = ""
 path = ""
-lang = "id"
+lang = "en"
 
 [comments.cactus]
 defaultHomeserverUrl = "https://matrix.cactus.chat:8448"
