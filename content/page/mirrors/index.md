@@ -1,5 +1,5 @@
 ---
-title: Mirror
+title: Mirrors
 links:
   - title: Cloudflare Workers Mirror
     description: Mirror dari situs utama yang disediakan melalui Cloudflare Workers.

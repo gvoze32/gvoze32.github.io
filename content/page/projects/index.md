@@ -1,5 +1,5 @@
 ---
-title: Project
+title: Projects
 links:
   - title: SiKeren
     description: SiKeren adalah sebuah proyek sistem informasi yang menerapkan fitur utama real-time speech-to-text pada rapat di Dewan Perwakilan Daerah Palangka Raya.
