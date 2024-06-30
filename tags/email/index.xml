@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Email on Adena's Blog</title><link>https://syafa.tech/tags/email/</link><description>Recent content in Email on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/tags/email/index.xml" rel="self" type="application/rss+xml"/><item><title>Membuat Temp Mail Dengan Mudah Menggunakan Fitur Forwarder</title><link>https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/</guid><description>&lt;img src="https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/cover.png" alt="Featured image of post Membuat Temp Mail Dengan Mudah Menggunakan Fitur Forwarder" />&lt;p>Kadang-kadang, kita hanya ingin mendaftar pada sebuah situs yang tidak begitu penting dan hanya dibutuhkan sekali saja. Dalam situasi seperti ini, menggunakan email pribadi tidaklah diperlukan. Untuk keperluan seperti itu, temp mail menjadi solusi yang tepat. Temp mail memungkinkan kita untuk menerima pesan yang sifatnya sementara atau hanya untuk melakukan verifikasi akun yang bersifat sementara.&lt;/p>
+&lt;p>Beberapa kegunaan utama temp mail:&lt;/p>
+&lt;ol>
+&lt;li>Anda tidak perlu membagikan email utama Anda sehingga mengurangi risiko menerima spam.&lt;/li>
+&lt;li>Temp mail membantu menjaga privasi Anda dengan menyembunyikan identitas email utama Anda dari pihak ketiga.&lt;/li>
+&lt;li>Temp mail berguna untuk menguji pendaftaran dan layanan email baru sebelum menggunakan email utama Anda.&lt;/li>
+&lt;li>Untuk aktivitas online sementara seperti berlangganan promosi, temp mail menjadi pilihan yang aman dan praktis.&lt;/li>
+&lt;/ol>
+&lt;h2 id="persiapan">Persiapan
+&lt;/h2>&lt;p>Sebelum membuat temp mail, pastikan Anda memiliki:&lt;/p>
+&lt;ul>
+&lt;li>Domain dan Hosting yang mendukung fitur email dan default address.&lt;/li>
+&lt;/ul>
+&lt;h2 id="cara-membuat">Cara Membuat
+&lt;/h2>&lt;ol>
+&lt;li>Buka cPanel dan pilih &lt;strong>Email Accounts&lt;/strong>.&lt;/li>
+&lt;li>Buat alamat email baru yang nantinya akan digunakan untuk menampung semua email.&lt;/li>
+&lt;li>Buka &lt;strong>Default Address&lt;/strong> dan perhatikan bagian &lt;strong>Send all unrouted email for the following domain&lt;/strong>.&lt;/li>
+&lt;li>Centang opsi &lt;strong>Forward to Email Addres&lt;/strong>.&lt;/li>
+&lt;li>Tambahkan alamat email yang sudah Anda buat.&lt;/li>
+&lt;/ol>
+&lt;p>Dengan langkah-langkah di atas, email yang masuk ke &lt;code>random@domainmu.com&lt;/code> akan secara otomatis diteruskan ke alamat email yang Anda buat sebelumnya.&lt;/p>
+&lt;p>Dengan menggunakan temp mail, Anda dapat dengan mudah mendaftar pada situs web atau layanan online yang membutuhkan alamat email, tanpa perlu khawatir dengan keamanan atau privasi email pribadi Anda.&lt;/p></description></item></channel></rss>

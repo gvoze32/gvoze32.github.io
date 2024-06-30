@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Grub on Adena's Blog</title><link>https://syafa.tech/tags/grub/</link><description>Recent content in Grub on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/tags/grub/index.xml" rel="self" type="application/rss+xml"/><item><title>Mengembalikan Entri Menu Windows Yang Hilang di GRUB</title><link>https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/</guid><description>&lt;img src="https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/cover.jpg" alt="Featured image of post Mengembalikan Entri Menu Windows Yang Hilang di GRUB" />&lt;p>Jadi tadi saya menemukan masalah di mana saat melakukan &lt;code>update-grub&lt;/code> dan &lt;code>os-probe&lt;/code>, file boot UEFI Windows saya tetap tidak terdeteksi.&lt;/p>
+&lt;p>Akhirnya saya menemukan cara memperbaikinya dengan mudah. Anda hanya tinggal membuat file di &lt;code>/boot/grub&lt;/code> dengan nama &lt;code>custom.cfg&lt;/code> dan isi dengan kode di bawah ini.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">menuentry &lt;span class="s2">&amp;#34;Windows Custom&amp;#34;&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod part_gpt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod fat
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod chain
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> search --no-floppy --fs-uuid --set&lt;span class="o">=&lt;/span>uuidbootuefikamu
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Isi &lt;code>uuidbootuefikamu&lt;/code> dengan UUID partisi UEFI Anda (biasanya memiliki format FAT32). Anda bisa mencarinya dengan bantuan perintah &lt;code>blkid&lt;/code> atau &lt;code>lsblk -f&lt;/code>.&lt;/p>
+&lt;p>Coba muat ulang komputer dan pastikan ada pilihan boot Windows di menu GRUB Anda.&lt;/p>
+&lt;p>Atau jika Anda menggunakan sistem operasi Ubuntu, Anda bisa menggunakan bantuan tool &lt;em>boot-repair&lt;/em>.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo add-apt-repository ppa:yannubuntu/boot-repair
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt-get update
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt-get install -y boot-repair &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> boot-repair
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dengan langkah-langkah di atas, seharusnya file boot UEFI Windows Anda sudah terdeteksi dan bisa diakses melalui menu GRUB. Selamat mencoba!&lt;/p></description></item><item><title>Mengembalikan Menu GRUB Yang Hilang</title><link>https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/</guid><description>&lt;img src="https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/cover.png" alt="Featured image of post Mengembalikan Menu GRUB Yang Hilang" />&lt;p>Jika komputer kita sudah menginstal distro Linux, terkadang GRUB akan hilang atau bisa saja tertimpa oleh bootloader milik Windows sehingga GRUB tidak akan tampil.&lt;/p>
+&lt;p>Pada kondisi ini, sebenarnya distro Anda tidak rusak ataupun hilang, hanya saja ada konfigurasi yang salah dan harus diperbaiki.&lt;/p>
+&lt;p>Untuk mengembalikan GRUB, Anda bisa melakukannya langsung melalui terminal di distro Linux Anda jika masih bisa boot ke dalamnya, atau menggunakan LiveCD jika tidak bisa melakukan boot.&lt;/p>
+&lt;h2 id="langkah-langkah">Langkah-langkah
+&lt;/h2>&lt;h3 id="1-install-grub">1. Install GRUB
+&lt;/h3>&lt;p>Jika Anda sudah bisa mengakses distro Linux Anda, buka terminal dan jalankan perintah berikut:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo grub-install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="2-update-konfigurasi-grub">2. Update Konfigurasi GRUB
+&lt;/h3>&lt;p>Setelah perintah di atas sukses dijalankan, langkah berikutnya adalah membuat file konfigurasi GRUB baru:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-restart-komputer">3. Restart Komputer
+&lt;/h3>&lt;p>Restart komputer Anda untuk memastikan apakah GRUB sudah tampil pada saat booting.&lt;/p>
+&lt;h3 id="4-deteksi-windows-dengan-os-prober">4. Deteksi Windows dengan &lt;code>os-prober&lt;/code>
+&lt;/h3>&lt;p>Jika Windows tidak dikenali, silakan jalankan perintah berikut:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo os-prober
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="5-edit-konfigurasi-grub-opsional">5. Edit Konfigurasi GRUB (Opsional)
+&lt;/h3>&lt;p>Jika boot menu masih tidak tampil, mungkin ada konfigurasi GRUB yang bermasalah. Anda dapat mengedit file &lt;code>/etc/default/grub&lt;/code> pada seksi &lt;code>GRUB_TIMEOUT_STYLE&lt;/code> dari &lt;code>hidden&lt;/code> menjadi &lt;code>menu&lt;/code> untuk menampilkan entri menu boot. Berikut adalah contohnya:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo nano /etc/default/grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Ubah baris:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">GRUB_TIMEOUT_STYLE&lt;/span>&lt;span class="o">=&lt;/span>hidden
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Menjadi:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">GRUB_TIMEOUT_STYLE&lt;/span>&lt;span class="o">=&lt;/span>menu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Simpan perubahan dan jalankan kembali perintah &lt;code>update-grub&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dengan langkah-langkah di atas, seharusnya GRUB Anda sudah kembali dan bisa digunakan untuk memilih sistem operasi yang akan di-boot. Selamat mencoba!&lt;/p></description></item><item><title>Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB</title><link>https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/</guid><description>&lt;img src="https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/cover.jpg" alt="Featured image of post Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB" />&lt;p>Tahukah Anda bahwa Anda bisa menampilkan konfigurasi khusus sebelum entri utama di GRUB? Pada artikel ini, saya akan membagikan langkah-langkah sederhana untuk melakukannya.&lt;/p>
+&lt;p>Secara default, script file &lt;code>41_custom&lt;/code> berfungsi untuk mencari dan memberitahu sistem tentang keberadaan file &lt;code>custom.cfg&lt;/code>, kemudian menampilkan entri tersebut setelah entri menu GRUB (&lt;code>grub.cfg&lt;/code>) di layar bootscreen Anda.&lt;/p>
+&lt;p>Jika Anda ingin menampilkan entri dari &lt;code>custom.cfg&lt;/code> sebelum entri menu GRUB, ikuti langkah-langkah berikut:&lt;/p>
+&lt;h2 id="langkah-langkah">Langkah-langkah
+&lt;/h2>&lt;h3 id="1-salin-file-41_custom">1. Salin File &lt;code>41_custom&lt;/code>
+&lt;/h3>&lt;ul>
+&lt;li>Pertama, salin file &lt;code>41_custom&lt;/code> ke direktori yang sama.&lt;/li>
+&lt;li>Beri nama file tersebut menjadi &lt;code>09_custom&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;p>Mengapa &lt;code>09_custom&lt;/code>? Karena sistem GRUB membaca file konfigurasi berdasarkan urutan numerik. Dengan menamainya &lt;code>09_custom&lt;/code>, file tersebut akan dibaca sebelum &lt;code>10_linux&lt;/code>, script yang digunakan untuk membuat konfigurasi file &lt;code>grub.cfg&lt;/code>.&lt;/p>
+&lt;h3 id="2-matikan-script-41_custom">2. Matikan Script &lt;code>41_custom&lt;/code>
+&lt;/h3>&lt;ul>
+&lt;li>Buka file &lt;code>41_custom&lt;/code> dengan editor teks favorit Anda.&lt;/li>
+&lt;li>Tambahkan tanda &lt;code>#&lt;/code> di awal setiap baris dalam file tersebut untuk menonaktifkannya.&lt;/li>
+&lt;/ul>
+&lt;p>Contoh:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># if [ -f ${config_directory}/custom.cfg ]; then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># source ${config_directory}/custom.cfg&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-perbarui-konfigurasi-grub">3. Perbarui Konfigurasi GRUB
+&lt;/h3>&lt;ul>
+&lt;li>Setelah melakukan perubahan, jalankan perintah berikut di terminal untuk memperbarui konfigurasi GRUB Anda:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Perintah ini akan membuat ulang file konfigurasi &lt;code>grub.cfg&lt;/code> dengan urutan entri yang baru.&lt;/p>
+&lt;p>Dengan langkah-langkah ini, entri dari &lt;code>custom.cfg&lt;/code> akan muncul sebelum entri menu GRUB utama. Ini sangat berguna jika Anda memiliki konfigurasi khusus yang ingin diutamakan saat booting.&lt;/p>
+&lt;p>Selamat mencoba, dan semoga bermanfaat!&lt;/p></description></item></channel></rss>
