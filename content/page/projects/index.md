@@ -13,11 +13,3 @@ menu:
 
 comments: false
 ---
-
-## Kenapa Saya Berkarya
-
-Proyek-proyek ini adalah wujud eksplorasi, kreasi, dan dedikasi saya dalam mengembangkan solusi yang bermanfaat.
-
-### Alasan di Balik Karya-Karya Saya
-
-Saya senang berbagi proyek-proyek ini sebagai cerminan dari perjalanan pengembangan saya. Setiap proyek adalah sebuah kisah tentang tantangan yang dihadapi, kegembiraan dalam menemukan solusi, dan kerja keras yang saya lakukan. Semoga proyek-proyek ini tidak hanya menjadi bukti dari kemampuan teknis saya, tetapi juga sebagai sumber inspirasi bagi mereka yang melihatnya.
