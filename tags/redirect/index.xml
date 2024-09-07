@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redirect on Adena's Blog</title><link>https://syafa.tech/tags/redirect/</link><description>Recent content in Redirect on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/tags/redirect/index.xml" rel="self" type="application/rss+xml"/><item><title>Redirect Antar Domain Hanya Dengan Menggunakan DNS</title><link>https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/</guid><description>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cover.png" alt="Featured image of post Redirect Antar Domain Hanya Dengan Menggunakan DNS" />&lt;p>Ketika ingin melakukan redirect dari satu domain ke domain lainnya, biasanya langkah pertama yang terlintas adalah menggunakan fungsi redirect di web hosting. Namun, bagaimana jika Anda tidak memiliki web hosting dan hanya bisa mengakses DNS?&lt;/p>
+&lt;h2 id="menggunakan-redirectcenter">Menggunakan redirect.center
+&lt;/h2>&lt;h3 id="tambahkan-record-dns">Tambahkan Record DNS
+&lt;/h3>&lt;ol>
+&lt;li>Tambahkan A record dengan nama &lt;code>@&lt;/code> dan value &lt;code>54.84.55.102&lt;/code>.&lt;/li>
+&lt;li>Tambahkan juga CNAME record dengan nama &lt;code>redirect&lt;/code> dan value &lt;code>tujuan.com.redirect.center&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>Ganti &lt;code>tujuan&lt;/code> menjadi alamat website anda&lt;/p>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen.png"
+width="1024"
+height="114"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen_hu8920264225537172026.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen_hu6987839318031639255.png 1024w"
+loading="lazy"
+alt="Redirect.center redirect"
+class="gallery-image"
+data-flex-grow="898"
+data-flex-basis="2155px"
+>&lt;/p>
+&lt;p>Sekarang Anda bisa dengan mudah mengarahkan dari path ke domain lain atau dari subdomain ke domain lain. Untuk informasi lebih lanjut, kunjungi &lt;a class="link" href="http://redirect.center/" target="_blank" rel="noopener"
+>redirect.center&lt;/a>.&lt;/p>
+&lt;h2 id="menggunakan-cloudflare">Menggunakan Cloudflare
+&lt;/h2>&lt;h3 id="langkah-1-tambahkan-record-dns-dan-aktifkan-fitur-proxy">Langkah 1: Tambahkan Record DNS dan Aktifkan Fitur Proxy
+&lt;/h3>&lt;ol>
+&lt;li>Tambahkan A record dengan nama &lt;code>@&lt;/code>, &lt;code>www&lt;/code>, dan subdomain lain yang ingin Anda alihkan.&lt;/li>
+&lt;li>Aktifkan fitur proxy Cloudflare dan isi value dengan &lt;code>192.0.2.1&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir.png"
+width="1024"
+height="91"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir_hu10115268472241310720.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir_hu11025146262702455607.png 1024w"
+loading="lazy"
+alt="Cloudflare redirect"
+class="gallery-image"
+data-flex-grow="1125"
+data-flex-basis="2700px"
+>&lt;/p>
+&lt;h3 id="langkah-2-tambahkan-page-rule">Langkah 2: Tambahkan Page Rule
+&lt;/h3>&lt;p>Pada bagian &amp;ldquo;If the URL matches:&amp;rdquo;, dalam contoh ini, pola yang digunakan adalah &amp;ldquo;example.com/&amp;rdquo;, yang berarti semua URL yang dimulai dengan &amp;ldquo;example.com/&amp;rdquo; akan diarahkan.&lt;/p>
+&lt;p>Kemudian pada bagian &amp;ldquo;Then the settings are:&amp;rdquo;, Anda dapat memilih tindakan yang akan dilakukan ketika URL cocok dengan pola.&lt;/p>
+&lt;p>Dalam contoh ini, pengaturannya adalah:&lt;/p>
+&lt;ol>
+&lt;li>&amp;ldquo;Forwarding URL&amp;rdquo; - URL tujuan yang akan diarahkan.&lt;/li>
+&lt;li>&amp;ldquo;302 - Temporary Redirect&amp;rdquo; - Jenis redirect yang dilakukan, yaitu redirect sementara (kode status HTTP 302).&lt;/li>
+&lt;/ol>
+&lt;p>Dengan pengaturan ini, setiap kali ada permintaan ke URL yang dimulai dengan &amp;ldquo;example.com/&amp;rdquo;, permintaan tersebut akan diarahkan ke forwarding URL.&lt;/p>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule.png"
+width="1000"
+height="501"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule_hu18112273142077369913.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule_hu14559931135695902774.png 1024w"
+loading="lazy"
+alt="Cloudflare rule"
+class="gallery-image"
+data-flex-grow="199"
+data-flex-basis="479px"
+>&lt;/p>
+&lt;p>Simpan perubahan dan coba akses website Anda. Dengan mengikuti langkah-langkah di atas, seharusnya Anda akan langsung diarahkan ke domain tujuan.&lt;/p>
+&lt;p>Itulah cara praktis untuk melakukan redirect antar domain hanya dengan menggunakan DNS. Jika ada pertanyaan, jangan ragu untuk meninggalkan komentar. Terima kasih!&lt;/p></description></item></channel></rss>

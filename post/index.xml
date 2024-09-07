@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Adena's Blog</title><link>https://syafa.tech/post/</link><description>Recent content in Posts on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Cara Menjadikan Docker Bisa Membuat Lebih Dari 31 Default Network</title><link>https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/</guid><description>&lt;img src="https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/cover.jpg" alt="Featured image of post Cara Menjadikan Docker Bisa Membuat Lebih Dari 31 Default Network" />&lt;p>Saat bekerja dengan Docker, seringkali kita menemui batasan jumlah jaringan yang dapat dibuat menggunakan driver network bridge default. Secara default, Docker memiliki batasan 31 jaringan untuk driver network bridge pada satu perangkat.&lt;/p>
+&lt;p>Jika Anda mencoba membuat lebih dari 31 jaringan, Anda mungkin akan mendapatkan pesan kesalahan seperti ini:&lt;/p>
+&lt;blockquote>
+&lt;p>Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network&lt;/p>
+&lt;/blockquote>
+&lt;p>Hal ini disebabkan oleh pengaturan rentang jaringan default Docker, yaitu 172.17-31.xx/16 dan 192.168.xx/20.&lt;/p>
+&lt;p>Untungnya, Anda dapat menyesuaikan rentang jaringan dalam konfigurasi daemon Docker. Berikut langkah-langkahnya:&lt;/p>
+&lt;ol>
+&lt;li>Buat file baru bernama &lt;code>daemon.json&lt;/code> di direktori &lt;code>/etc/docker&lt;/code>:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ nano /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>Tambahkan konfigurasi berikut ke dalam file &lt;code>daemon.json&lt;/code>:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;default-address-pools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nt">&amp;#34;base&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;10.10.0.0/16&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">24&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>
+&lt;p>Simpan perubahan dan tutup file &lt;code>daemon.json&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Restart service &lt;code>dockerd&lt;/code> untuk menerapkan perubahan:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ service docker restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="5">
+&lt;li>Periksa hasilnya dengan menjalankan perintah berikut untuk melihat rentang subnet jaringan bridge:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ docker network inspect bridge &lt;span class="p">|&lt;/span> grep Subnet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Sekarang, Docker akan menggunakan rentang jaringan yang telah Anda atur untuk membuat jaringan baru, mengatasi batasan 31 jaringan.&lt;/p>
+&lt;p>Dengan langkah-langkah ini, Anda dapat dengan mudah mengatasi batas jumlah jaringan pada Docker dan melanjutkan pekerjaan Anda tanpa hambatan.&lt;/p></description></item><item><title>Kenapa Terdapat Sisa Partisi Unallocated Pada Drive Kita?</title><link>https://syafa.tech/p/kenapa-terdapat-sisa-partisi-unallocated-pada-drive-kita/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/kenapa-terdapat-sisa-partisi-unallocated-pada-drive-kita/</guid><description>&lt;img src="https://syafa.tech/p/kenapa-terdapat-sisa-partisi-unallocated-pada-drive-kita/cover.jpg" alt="Featured image of post Kenapa Terdapat Sisa Partisi Unallocated Pada Drive Kita?" />&lt;p>Saat melakukan instal ulang laptop dan ingin menggabungkan beberapa partisi menjadi satu, Anda mungkin akan menemui kendala ketika mencoba untuk menggabungkan partisi kecil yang tersisa dengan partisi utama. Ketika akan menggabungkannya, mungkin Anda akan menerima peringatan seperti:&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;The operation you selected will convert the selected basic disk(s) to dynamic disk(s). If you convert the disk(s) to dynamic, you will not be able to start installed operation systems from any volume on the disk(s) (except the current boot volume). Are you sure you want to continue?&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>Ini seringkali terjadi pada laptop merek Hewlett-Packard (HP) dan sebagian besar disebabkan oleh aturan pengaturan disk Windows. Tidak cukupnya ruang buffer yang belum dialokasikan bisa menjadi penyebabnya.&lt;/p>
+&lt;p>Jika Anda mengalami masalah ini, pastikan Anda memahami bahwa ruang kosong kecil pada hard disk diperlukan untuk proses konversi disk dari basic ke dynamic. Tanpa ruang kosong tersebut, proses konversi akan gagal.&lt;/p>
+&lt;p>Jadi, solusinya adalah biarkan saja ruang tersebut kosong dan jangan mencoba untuk menggabungkannya ke partisi utama. Biarkan Windows mengatur ruang tersebut sesuai kebutuhan untuk memastikan proses konversi berjalan lancar.&lt;/p>
+&lt;p>Dengan mengetahui tips ini, Anda akan menghindari masalah yang tidak perlu saat melakukan partisi ulang laptop Anda.&lt;/p></description></item><item><title>Membuat Subdomain Untuk Minecraft Server</title><link>https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/</guid><description>&lt;img src="https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/cover.png" alt="Featured image of post Membuat Subdomain Untuk Minecraft Server" />&lt;p>Server Minecraft yang baru dibuat umumnya menggunakan alamat IP dan port yang terdiri dari angka. Contohnya adalah &lt;code>195.27.18.197:2574&lt;/code>. Memiliki rangkaian angka ini bisa sangat merepotkan untuk ditulis dan dihafalkan.&lt;/p>
+&lt;p>Untuk mempermudah hal ini, Anda dapat menyambungkannya ke domain atau subdomain yang Anda miliki dengan bantuan Cloudflare.&lt;/p>
+&lt;h2 id="persiapan">Persiapan
+&lt;/h2>&lt;p>Sebelum memulai, pastikan Anda telah memiliki:&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>Domain&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>VPS&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>Cloudflare&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;h2 id="menjalankan-server-minecraft">Menjalankan Server Minecraft
+&lt;/h2>&lt;p>Pastikan server Minecraft Anda sudah berjalan di VPS. Jika sudah, Anda bisa melanjutkan ke tahap selanjutnya.&lt;/p>
+&lt;h2 id="langkah-langkah-menyambungkan-subdomain-dengan-server-minecraft-melalui-cloudflare">Langkah-langkah Menyambungkan Subdomain dengan Server Minecraft melalui Cloudflare
+&lt;/h2>&lt;h3 id="1-tambahkan-subdomain-di-cloudflare">1. Tambahkan Subdomain di Cloudflare
+&lt;/h3>&lt;ol>
+&lt;li>Login ke akun Cloudflare Anda.&lt;/li>
+&lt;li>Pilih domain yang ingin Anda gunakan untuk server Minecraft.&lt;/li>
+&lt;li>Buka bagian &lt;strong>DNS&lt;/strong>.&lt;/li>
+&lt;li>Tambahkan &lt;strong>A Record&lt;/strong> baru dengan:
+&lt;ul>
+&lt;li>&lt;strong>Name&lt;/strong>: Nama subdomain yang Anda inginkan.&lt;/li>
+&lt;li>&lt;strong>IPv4 Address&lt;/strong>: Isi dengan alamat IP VPS tempat server Minecraft Anda berjalan.&lt;/li>
+&lt;li>&lt;strong>TTL&lt;/strong>: Biarkan nilai default atau atur sesuai kebutuhan Anda.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="2-tunggu-proses-propagasi-dns">2. Tunggu Proses Propagasi DNS
+&lt;/h3>&lt;p>Tunggu beberapa saat hingga perubahan DNS terpropagasi. Waktu propagasi DNS dapat bervariasi, biasanya membutuhkan waktu hingga 1 jam.&lt;/p>
+&lt;h3 id="3-cek-integrasi">3. Cek Integrasi
+&lt;/h3>&lt;p>Setelah propagasi DNS selesai, coba akses subdomain Anda melalui permainan Minecraft. Jika konfigurasi sudah benar, subdomain Anda seharusnya dapat digunakan untuk terhubung ke server Minecraft Anda.&lt;/p>
+&lt;p>Dengan langkah-langkah di atas, sekarang server Minecraft Anda dapat diakses dengan menggunakan domain atau subdomain yang lebih mudah diingat. Jika Anda mengalami kesulitan, jangan ragu untuk berkomentar. Semoga berhasil!&lt;/p></description></item><item><title>Membuat Temp Mail Dengan Mudah Menggunakan Fitur Forwarder</title><link>https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/</guid><description>&lt;img src="https://syafa.tech/p/membuat-temp-mail-dengan-mudah-menggunakan-fitur-forwarder/cover.png" alt="Featured image of post Membuat Temp Mail Dengan Mudah Menggunakan Fitur Forwarder" />&lt;p>Kadang-kadang, kita hanya ingin mendaftar pada sebuah situs yang tidak begitu penting dan hanya dibutuhkan sekali saja. Dalam situasi seperti ini, menggunakan email pribadi tidaklah diperlukan. Untuk keperluan seperti itu, temp mail menjadi solusi yang tepat. Temp mail memungkinkan kita untuk menerima pesan yang sifatnya sementara atau hanya untuk melakukan verifikasi akun yang bersifat sementara.&lt;/p>
+&lt;p>Beberapa kegunaan utama temp mail:&lt;/p>
+&lt;ol>
+&lt;li>Anda tidak perlu membagikan email utama Anda sehingga mengurangi risiko menerima spam.&lt;/li>
+&lt;li>Temp mail membantu menjaga privasi Anda dengan menyembunyikan identitas email utama Anda dari pihak ketiga.&lt;/li>
+&lt;li>Temp mail berguna untuk menguji pendaftaran dan layanan email baru sebelum menggunakan email utama Anda.&lt;/li>
+&lt;li>Untuk aktivitas online sementara seperti berlangganan promosi, temp mail menjadi pilihan yang aman dan praktis.&lt;/li>
+&lt;/ol>
+&lt;h2 id="persiapan">Persiapan
+&lt;/h2>&lt;p>Sebelum membuat temp mail, pastikan Anda memiliki:&lt;/p>
+&lt;ul>
+&lt;li>Domain dan Hosting yang mendukung fitur email dan default address.&lt;/li>
+&lt;/ul>
+&lt;h2 id="cara-membuat">Cara Membuat
+&lt;/h2>&lt;ol>
+&lt;li>Buka cPanel dan pilih &lt;strong>Email Accounts&lt;/strong>.&lt;/li>
+&lt;li>Buat alamat email baru yang nantinya akan digunakan untuk menampung semua email.&lt;/li>
+&lt;li>Buka &lt;strong>Default Address&lt;/strong> dan perhatikan bagian &lt;strong>Send all unrouted email for the following domain&lt;/strong>.&lt;/li>
+&lt;li>Centang opsi &lt;strong>Forward to Email Addres&lt;/strong>.&lt;/li>
+&lt;li>Tambahkan alamat email yang sudah Anda buat.&lt;/li>
+&lt;/ol>
+&lt;p>Dengan langkah-langkah di atas, email yang masuk ke &lt;code>random@domainmu.com&lt;/code> akan secara otomatis diteruskan ke alamat email yang Anda buat sebelumnya.&lt;/p>
+&lt;p>Dengan menggunakan temp mail, Anda dapat dengan mudah mendaftar pada situs web atau layanan online yang membutuhkan alamat email, tanpa perlu khawatir dengan keamanan atau privasi email pribadi Anda.&lt;/p></description></item><item><title>Mengembalikan Entri Menu Windows Yang Hilang di GRUB</title><link>https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/</guid><description>&lt;img src="https://syafa.tech/p/mengembalikan-entri-menu-windows-yang-hilang-di-grub/cover.jpg" alt="Featured image of post Mengembalikan Entri Menu Windows Yang Hilang di GRUB" />&lt;p>Jadi tadi saya menemukan masalah di mana saat melakukan &lt;code>update-grub&lt;/code> dan &lt;code>os-probe&lt;/code>, file boot UEFI Windows saya tetap tidak terdeteksi.&lt;/p>
+&lt;p>Akhirnya saya menemukan cara memperbaikinya dengan mudah. Anda hanya tinggal membuat file di &lt;code>/boot/grub&lt;/code> dengan nama &lt;code>custom.cfg&lt;/code> dan isi dengan kode di bawah ini.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">menuentry &lt;span class="s2">&amp;#34;Windows Custom&amp;#34;&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod part_gpt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod fat
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> insmod chain
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> search --no-floppy --fs-uuid --set&lt;span class="o">=&lt;/span>uuidbootuefikamu
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Isi &lt;code>uuidbootuefikamu&lt;/code> dengan UUID partisi UEFI Anda (biasanya memiliki format FAT32). Anda bisa mencarinya dengan bantuan perintah &lt;code>blkid&lt;/code> atau &lt;code>lsblk -f&lt;/code>.&lt;/p>
+&lt;p>Coba muat ulang komputer dan pastikan ada pilihan boot Windows di menu GRUB Anda.&lt;/p>
+&lt;p>Atau jika Anda menggunakan sistem operasi Ubuntu, Anda bisa menggunakan bantuan tool &lt;em>boot-repair&lt;/em>.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo add-apt-repository ppa:yannubuntu/boot-repair
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt-get update
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt-get install -y boot-repair &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> boot-repair
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dengan langkah-langkah di atas, seharusnya file boot UEFI Windows Anda sudah terdeteksi dan bisa diakses melalui menu GRUB. Selamat mencoba!&lt;/p></description></item><item><title>Mengembalikan Menu GRUB Yang Hilang</title><link>https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/</guid><description>&lt;img src="https://syafa.tech/p/mengembalikan-menu-grub-yang-hilang/cover.png" alt="Featured image of post Mengembalikan Menu GRUB Yang Hilang" />&lt;p>Jika komputer kita sudah menginstal distro Linux, terkadang GRUB akan hilang atau bisa saja tertimpa oleh bootloader milik Windows sehingga GRUB tidak akan tampil.&lt;/p>
+&lt;p>Pada kondisi ini, sebenarnya distro Anda tidak rusak ataupun hilang, hanya saja ada konfigurasi yang salah dan harus diperbaiki.&lt;/p>
+&lt;p>Untuk mengembalikan GRUB, Anda bisa melakukannya langsung melalui terminal di distro Linux Anda jika masih bisa boot ke dalamnya, atau menggunakan LiveCD jika tidak bisa melakukan boot.&lt;/p>
+&lt;h2 id="langkah-langkah">Langkah-langkah
+&lt;/h2>&lt;h3 id="1-install-grub">1. Install GRUB
+&lt;/h3>&lt;p>Jika Anda sudah bisa mengakses distro Linux Anda, buka terminal dan jalankan perintah berikut:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo grub-install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="2-update-konfigurasi-grub">2. Update Konfigurasi GRUB
+&lt;/h3>&lt;p>Setelah perintah di atas sukses dijalankan, langkah berikutnya adalah membuat file konfigurasi GRUB baru:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-restart-komputer">3. Restart Komputer
+&lt;/h3>&lt;p>Restart komputer Anda untuk memastikan apakah GRUB sudah tampil pada saat booting.&lt;/p>
+&lt;h3 id="4-deteksi-windows-dengan-os-prober">4. Deteksi Windows dengan &lt;code>os-prober&lt;/code>
+&lt;/h3>&lt;p>Jika Windows tidak dikenali, silakan jalankan perintah berikut:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo os-prober
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="5-edit-konfigurasi-grub-opsional">5. Edit Konfigurasi GRUB (Opsional)
+&lt;/h3>&lt;p>Jika boot menu masih tidak tampil, mungkin ada konfigurasi GRUB yang bermasalah. Anda dapat mengedit file &lt;code>/etc/default/grub&lt;/code> pada seksi &lt;code>GRUB_TIMEOUT_STYLE&lt;/code> dari &lt;code>hidden&lt;/code> menjadi &lt;code>menu&lt;/code> untuk menampilkan entri menu boot. Berikut adalah contohnya:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo nano /etc/default/grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Ubah baris:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">GRUB_TIMEOUT_STYLE&lt;/span>&lt;span class="o">=&lt;/span>hidden
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Menjadi:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">GRUB_TIMEOUT_STYLE&lt;/span>&lt;span class="o">=&lt;/span>menu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Simpan perubahan dan jalankan kembali perintah &lt;code>update-grub&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dengan langkah-langkah di atas, seharusnya GRUB Anda sudah kembali dan bisa digunakan untuk memilih sistem operasi yang akan di-boot. Selamat mencoba!&lt;/p></description></item><item><title>Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB</title><link>https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/</guid><description>&lt;img src="https://syafa.tech/p/menjadikan-custom-config-muncul-sebelum-entri-utama-di-grub/cover.jpg" alt="Featured image of post Menjadikan Custom Config Muncul Sebelum Entri Utama di GRUB" />&lt;p>Tahukah Anda bahwa Anda bisa menampilkan konfigurasi khusus sebelum entri utama di GRUB? Pada artikel ini, saya akan membagikan langkah-langkah sederhana untuk melakukannya.&lt;/p>
+&lt;p>Secara default, script file &lt;code>41_custom&lt;/code> berfungsi untuk mencari dan memberitahu sistem tentang keberadaan file &lt;code>custom.cfg&lt;/code>, kemudian menampilkan entri tersebut setelah entri menu GRUB (&lt;code>grub.cfg&lt;/code>) di layar bootscreen Anda.&lt;/p>
+&lt;p>Jika Anda ingin menampilkan entri dari &lt;code>custom.cfg&lt;/code> sebelum entri menu GRUB, ikuti langkah-langkah berikut:&lt;/p>
+&lt;h2 id="langkah-langkah">Langkah-langkah
+&lt;/h2>&lt;h3 id="1-salin-file-41_custom">1. Salin File &lt;code>41_custom&lt;/code>
+&lt;/h3>&lt;ul>
+&lt;li>Pertama, salin file &lt;code>41_custom&lt;/code> ke direktori yang sama.&lt;/li>
+&lt;li>Beri nama file tersebut menjadi &lt;code>09_custom&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;p>Mengapa &lt;code>09_custom&lt;/code>? Karena sistem GRUB membaca file konfigurasi berdasarkan urutan numerik. Dengan menamainya &lt;code>09_custom&lt;/code>, file tersebut akan dibaca sebelum &lt;code>10_linux&lt;/code>, script yang digunakan untuk membuat konfigurasi file &lt;code>grub.cfg&lt;/code>.&lt;/p>
+&lt;h3 id="2-matikan-script-41_custom">2. Matikan Script &lt;code>41_custom&lt;/code>
+&lt;/h3>&lt;ul>
+&lt;li>Buka file &lt;code>41_custom&lt;/code> dengan editor teks favorit Anda.&lt;/li>
+&lt;li>Tambahkan tanda &lt;code>#&lt;/code> di awal setiap baris dalam file tersebut untuk menonaktifkannya.&lt;/li>
+&lt;/ul>
+&lt;p>Contoh:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># if [ -f ${config_directory}/custom.cfg ]; then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># source ${config_directory}/custom.cfg&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-perbarui-konfigurasi-grub">3. Perbarui Konfigurasi GRUB
+&lt;/h3>&lt;ul>
+&lt;li>Setelah melakukan perubahan, jalankan perintah berikut di terminal untuk memperbarui konfigurasi GRUB Anda:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo update-grub
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Perintah ini akan membuat ulang file konfigurasi &lt;code>grub.cfg&lt;/code> dengan urutan entri yang baru.&lt;/p>
+&lt;p>Dengan langkah-langkah ini, entri dari &lt;code>custom.cfg&lt;/code> akan muncul sebelum entri menu GRUB utama. Ini sangat berguna jika Anda memiliki konfigurasi khusus yang ingin diutamakan saat booting.&lt;/p>
+&lt;p>Selamat mencoba, dan semoga bermanfaat!&lt;/p></description></item><item><title>Redirect Antar Domain Hanya Dengan Menggunakan DNS</title><link>https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/</guid><description>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cover.png" alt="Featured image of post Redirect Antar Domain Hanya Dengan Menggunakan DNS" />&lt;p>Ketika ingin melakukan redirect dari satu domain ke domain lainnya, biasanya langkah pertama yang terlintas adalah menggunakan fungsi redirect di web hosting. Namun, bagaimana jika Anda tidak memiliki web hosting dan hanya bisa mengakses DNS?&lt;/p>
+&lt;h2 id="menggunakan-redirectcenter">Menggunakan redirect.center
+&lt;/h2>&lt;h3 id="tambahkan-record-dns">Tambahkan Record DNS
+&lt;/h3>&lt;ol>
+&lt;li>Tambahkan A record dengan nama &lt;code>@&lt;/code> dan value &lt;code>54.84.55.102&lt;/code>.&lt;/li>
+&lt;li>Tambahkan juga CNAME record dengan nama &lt;code>redirect&lt;/code> dan value &lt;code>tujuan.com.redirect.center&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>Ganti &lt;code>tujuan&lt;/code> menjadi alamat website anda&lt;/p>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen.png"
+width="1024"
+height="114"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen_hu8920264225537172026.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redircen_hu6987839318031639255.png 1024w"
+loading="lazy"
+alt="Redirect.center redirect"
+class="gallery-image"
+data-flex-grow="898"
+data-flex-basis="2155px"
+>&lt;/p>
+&lt;p>Sekarang Anda bisa dengan mudah mengarahkan dari path ke domain lain atau dari subdomain ke domain lain. Untuk informasi lebih lanjut, kunjungi &lt;a class="link" href="http://redirect.center/" target="_blank" rel="noopener"
+>redirect.center&lt;/a>.&lt;/p>
+&lt;h2 id="menggunakan-cloudflare">Menggunakan Cloudflare
+&lt;/h2>&lt;h3 id="langkah-1-tambahkan-record-dns-dan-aktifkan-fitur-proxy">Langkah 1: Tambahkan Record DNS dan Aktifkan Fitur Proxy
+&lt;/h3>&lt;ol>
+&lt;li>Tambahkan A record dengan nama &lt;code>@&lt;/code>, &lt;code>www&lt;/code>, dan subdomain lain yang ingin Anda alihkan.&lt;/li>
+&lt;li>Aktifkan fitur proxy Cloudflare dan isi value dengan &lt;code>192.0.2.1&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir.png"
+width="1024"
+height="91"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir_hu10115268472241310720.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/cfredir_hu11025146262702455607.png 1024w"
+loading="lazy"
+alt="Cloudflare redirect"
+class="gallery-image"
+data-flex-grow="1125"
+data-flex-basis="2700px"
+>&lt;/p>
+&lt;h3 id="langkah-2-tambahkan-page-rule">Langkah 2: Tambahkan Page Rule
+&lt;/h3>&lt;p>Pada bagian &amp;ldquo;If the URL matches:&amp;rdquo;, dalam contoh ini, pola yang digunakan adalah &amp;ldquo;example.com/&amp;rdquo;, yang berarti semua URL yang dimulai dengan &amp;ldquo;example.com/&amp;rdquo; akan diarahkan.&lt;/p>
+&lt;p>Kemudian pada bagian &amp;ldquo;Then the settings are:&amp;rdquo;, Anda dapat memilih tindakan yang akan dilakukan ketika URL cocok dengan pola.&lt;/p>
+&lt;p>Dalam contoh ini, pengaturannya adalah:&lt;/p>
+&lt;ol>
+&lt;li>&amp;ldquo;Forwarding URL&amp;rdquo; - URL tujuan yang akan diarahkan.&lt;/li>
+&lt;li>&amp;ldquo;302 - Temporary Redirect&amp;rdquo; - Jenis redirect yang dilakukan, yaitu redirect sementara (kode status HTTP 302).&lt;/li>
+&lt;/ol>
+&lt;p>Dengan pengaturan ini, setiap kali ada permintaan ke URL yang dimulai dengan &amp;ldquo;example.com/&amp;rdquo;, permintaan tersebut akan diarahkan ke forwarding URL.&lt;/p>
+&lt;p>&lt;img src="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule.png"
+width="1000"
+height="501"
+srcset="https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule_hu18112273142077369913.png 480w, https://syafa.tech/p/redirect-antar-domain-hanya-dengan-menggunakan-dns/redirrule_hu14559931135695902774.png 1024w"
+loading="lazy"
+alt="Cloudflare rule"
+class="gallery-image"
+data-flex-grow="199"
+data-flex-basis="479px"
+>&lt;/p>
+&lt;p>Simpan perubahan dan coba akses website Anda. Dengan mengikuti langkah-langkah di atas, seharusnya Anda akan langsung diarahkan ke domain tujuan.&lt;/p>
+&lt;p>Itulah cara praktis untuk melakukan redirect antar domain hanya dengan menggunakan DNS. Jika ada pertanyaan, jangan ragu untuk meninggalkan komentar. Terima kasih!&lt;/p></description></item></channel></rss>

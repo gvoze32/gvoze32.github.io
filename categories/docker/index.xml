@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docker on Adena's Blog</title><link>https://syafa.tech/categories/docker/</link><description>Recent content in Docker on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/categories/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Cara Menjadikan Docker Bisa Membuat Lebih Dari 31 Default Network</title><link>https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/</guid><description>&lt;img src="https://syafa.tech/p/cara-menjadikan-docker-bisa-membuat-lebih-dari-31-default-network/cover.jpg" alt="Featured image of post Cara Menjadikan Docker Bisa Membuat Lebih Dari 31 Default Network" />&lt;p>Saat bekerja dengan Docker, seringkali kita menemui batasan jumlah jaringan yang dapat dibuat menggunakan driver network bridge default. Secara default, Docker memiliki batasan 31 jaringan untuk driver network bridge pada satu perangkat.&lt;/p>
+&lt;p>Jika Anda mencoba membuat lebih dari 31 jaringan, Anda mungkin akan mendapatkan pesan kesalahan seperti ini:&lt;/p>
+&lt;blockquote>
+&lt;p>Error response from daemon: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network&lt;/p>
+&lt;/blockquote>
+&lt;p>Hal ini disebabkan oleh pengaturan rentang jaringan default Docker, yaitu 172.17-31.xx/16 dan 192.168.xx/20.&lt;/p>
+&lt;p>Untungnya, Anda dapat menyesuaikan rentang jaringan dalam konfigurasi daemon Docker. Berikut langkah-langkahnya:&lt;/p>
+&lt;ol>
+&lt;li>Buat file baru bernama &lt;code>daemon.json&lt;/code> di direktori &lt;code>/etc/docker&lt;/code>:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ nano /etc/docker/daemon.json
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>Tambahkan konfigurasi berikut ke dalam file &lt;code>daemon.json&lt;/code>:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;default-address-pools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nt">&amp;#34;base&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;10.10.0.0/16&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nt">&amp;#34;size&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">24&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>
+&lt;p>Simpan perubahan dan tutup file &lt;code>daemon.json&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Restart service &lt;code>dockerd&lt;/code> untuk menerapkan perubahan:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ service docker restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="5">
+&lt;li>Periksa hasilnya dengan menjalankan perintah berikut untuk melihat rentang subnet jaringan bridge:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ docker network inspect bridge &lt;span class="p">|&lt;/span> grep Subnet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Sekarang, Docker akan menggunakan rentang jaringan yang telah Anda atur untuk membuat jaringan baru, mengatasi batasan 31 jaringan.&lt;/p>
+&lt;p>Dengan langkah-langkah ini, Anda dapat dengan mudah mengatasi batas jumlah jaringan pada Docker dan melanjutkan pekerjaan Anda tanpa hambatan.&lt;/p></description></item></channel></rss>

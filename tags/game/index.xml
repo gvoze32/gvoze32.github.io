@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Game on Adena's Blog</title><link>https://syafa.tech/tags/game/</link><description>Recent content in Game on Adena's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 16 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://syafa.tech/tags/game/index.xml" rel="self" type="application/rss+xml"/><item><title>Membuat Subdomain Untuk Minecraft Server</title><link>https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/</link><pubDate>Thu, 16 May 2024 00:00:00 +0000</pubDate><guid>https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/</guid><description>&lt;img src="https://syafa.tech/p/membuat-subdomain-untuk-minecraft-server/cover.png" alt="Featured image of post Membuat Subdomain Untuk Minecraft Server" />&lt;p>Server Minecraft yang baru dibuat umumnya menggunakan alamat IP dan port yang terdiri dari angka. Contohnya adalah &lt;code>195.27.18.197:2574&lt;/code>. Memiliki rangkaian angka ini bisa sangat merepotkan untuk ditulis dan dihafalkan.&lt;/p>
+&lt;p>Untuk mempermudah hal ini, Anda dapat menyambungkannya ke domain atau subdomain yang Anda miliki dengan bantuan Cloudflare.&lt;/p>
+&lt;h2 id="persiapan">Persiapan
+&lt;/h2>&lt;p>Sebelum memulai, pastikan Anda telah memiliki:&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>Domain&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>VPS&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>Cloudflare&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;h2 id="menjalankan-server-minecraft">Menjalankan Server Minecraft
+&lt;/h2>&lt;p>Pastikan server Minecraft Anda sudah berjalan di VPS. Jika sudah, Anda bisa melanjutkan ke tahap selanjutnya.&lt;/p>
+&lt;h2 id="langkah-langkah-menyambungkan-subdomain-dengan-server-minecraft-melalui-cloudflare">Langkah-langkah Menyambungkan Subdomain dengan Server Minecraft melalui Cloudflare
+&lt;/h2>&lt;h3 id="1-tambahkan-subdomain-di-cloudflare">1. Tambahkan Subdomain di Cloudflare
+&lt;/h3>&lt;ol>
+&lt;li>Login ke akun Cloudflare Anda.&lt;/li>
+&lt;li>Pilih domain yang ingin Anda gunakan untuk server Minecraft.&lt;/li>
+&lt;li>Buka bagian &lt;strong>DNS&lt;/strong>.&lt;/li>
+&lt;li>Tambahkan &lt;strong>A Record&lt;/strong> baru dengan:
+&lt;ul>
+&lt;li>&lt;strong>Name&lt;/strong>: Nama subdomain yang Anda inginkan.&lt;/li>
+&lt;li>&lt;strong>IPv4 Address&lt;/strong>: Isi dengan alamat IP VPS tempat server Minecraft Anda berjalan.&lt;/li>
+&lt;li>&lt;strong>TTL&lt;/strong>: Biarkan nilai default atau atur sesuai kebutuhan Anda.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="2-tunggu-proses-propagasi-dns">2. Tunggu Proses Propagasi DNS
+&lt;/h3>&lt;p>Tunggu beberapa saat hingga perubahan DNS terpropagasi. Waktu propagasi DNS dapat bervariasi, biasanya membutuhkan waktu hingga 1 jam.&lt;/p>
+&lt;h3 id="3-cek-integrasi">3. Cek Integrasi
+&lt;/h3>&lt;p>Setelah propagasi DNS selesai, coba akses subdomain Anda melalui permainan Minecraft. Jika konfigurasi sudah benar, subdomain Anda seharusnya dapat digunakan untuk terhubung ke server Minecraft Anda.&lt;/p>
+&lt;p>Dengan langkah-langkah di atas, sekarang server Minecraft Anda dapat diakses dengan menggunakan domain atau subdomain yang lebih mudah diingat. Jika Anda mengalami kesulitan, jangan ragu untuk berkomentar. Semoga berhasil!&lt;/p></description></item></channel></rss>
